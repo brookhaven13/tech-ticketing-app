@@ -1,27 +1,31 @@
-# Project Name
+# Ticket App
 
-A web app for booking tickets using Next.js 14.
+This is a ticket app built with Next.js 14. It allows users to check and manage issue tickets.
+
+## Features
+
+- Users can view all the issue tickets.
+- Users can manage tickets by creating, updating, and deleting them.
+- Users can filter tickets by status, priority, and category.
+- Users can search for tickets by keyword.
 
 ## Getting Started
 
-1. Run the development server:
+1. Clone the repository: `git clone https://github.com/brookhaven13/tech-ticketing-app.git`
+2. Install dependencies: `npm install`
+3. Start the development server: `npm run dev`
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Usage
 
-2. Open your browser and visit to see the app in action. [http://localhost:3000](http://localhost:3000)
+1. Navigate to `http://localhost:3000` in your web browser.
+2. You can view all the issue tickets on the homepage.
+3. To manage tickets, click on the "Manage Tickets" button.
+4. Use the filters and search bar to find specific tickets.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Contributing
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Contributions are welcome! If you find any issues or have suggestions for improvement, please open an issue or submit a pull request.
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
