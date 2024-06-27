@@ -17,7 +17,7 @@ const statusMap: Record<
 export default function TicketStatusBadge({ status }: Props) {
   return (
     <div>
-      <Badge className={statusMap[status].color}>
+      <Badge className={`${statusMap[status].color} text-background hover:${statusMap[status].color}`}>
         {statusMap[status].label}
       </Badge>
     </div>

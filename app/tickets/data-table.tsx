@@ -1,3 +1,4 @@
+import TicketPriority from "@/components/ticket-priority";
 import TicketStatusBadge from "@/components/ticket-status-badge";
 import {
   Table,
@@ -34,7 +35,7 @@ export default function DataTable({ tickets }: Props) {
                       {ticket.title}
                     </TableCell>
                     <TableCell><TicketStatusBadge status={ticket.status} /></TableCell>
-                    <TableCell>{ticket.priority}</TableCell>
+                    <TableCell><TicketPriority priority={ticket.priority} /></TableCell>
                     <TableCell>
                       {ticket.createdAt.toLocaleDateString("en-US", {
                         year: "numeric",
