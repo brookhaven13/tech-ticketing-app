@@ -1,4 +1,6 @@
+"use client";
 import { z } from "zod";
+import { useState } from "react";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { ticketSchema } from "@/Schema/ticket";
 import { Controller, useForm } from "react-hook-form";
@@ -13,13 +15,27 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
-async function onSubmit(values: z.infer<typeof ticketSchema>) {
-  console.log(values)
-}
-
 export default function TicketForm() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string>("");
+  async function onSubmit(values: z.infer<typeof ticketSchema>) {
+    try {
+      console.log(values);
+      setIsSubmitting(true);
+    } catch (error) {
+      setError("An error occurred while submitting the form.");
+      setIsSubmitting(false);
+    }
+  }
+
   const form  = useForm<TicketFormData>({
-    resolver: zodResolver(ticketSchema)
+    resolver: zodResolver(ticketSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      status: "",
+      priority: "",
+    }
   })
 
   return (
@@ -96,7 +112,7 @@ export default function TicketForm() {
             ></FormField>
           </div>
           <div className="flex justify-end space-x-4">
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isSubmitting}>Submit</Button>
           </div>
         </form>
       </Form>
