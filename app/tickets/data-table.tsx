@@ -16,7 +16,7 @@ interface Props {
 
 export default function DataTable({ tickets }: Props) {
   return (
-    <div className="w-full px-10 mt-5">
+    <div className="w-full px-10 my-5">
       <div className="rounded-md sm:border">
         <Table>
           <TableHeader>

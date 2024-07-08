@@ -1,14 +1,15 @@
 "use client";
+import axios from "axios";
 import { z } from "zod";
 import { useState } from "react";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
-import { ticketSchema } from "@/Schema/ticket";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ticketSchema } from "@/Schema/ticket";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
 
 // Shadcn UI
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
@@ -20,8 +21,12 @@ export default function TicketForm() {
   const [error, setError] = useState<string>("");
   async function onSubmit(values: z.infer<typeof ticketSchema>) {
     try {
-      console.log(values);
+      console.log("xxxxx", values);
       setIsSubmitting(true);
+      setError("");
+
+      await axios.post("/api/tickets", values);
+      
     } catch (error) {
       setError("An error occurred while submitting the form.");
       setIsSubmitting(false);
@@ -41,7 +46,7 @@ export default function TicketForm() {
   return (
     <div className="rounded-md border w-full p-4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 py-4">
           <FormField
             control={form.control}
             name="title"
@@ -111,9 +116,9 @@ export default function TicketForm() {
               )}
             ></FormField>
           </div>
-          <div className="flex justify-end space-x-4">
             <Button type="submit" disabled={isSubmitting}>Submit</Button>
-          </div>
+          {/* <div className="flex justify-end space-x-4">
+          </div> */}
         </form>
       </Form>
     </div>
