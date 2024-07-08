@@ -12,7 +12,7 @@ export async function fetchTickets() {
   }
 }
 
-export async function createTicket(request: NextRequest) {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   console.log(body);
   const validation = ticketSchema.safeParse(body);

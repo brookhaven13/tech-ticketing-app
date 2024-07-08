@@ -4,6 +4,7 @@ import { z } from "zod";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Ticket } from "@prisma/client";
 import { ticketSchema } from "@/Schema/ticket";
 import SimpleMDE from "react-simplemde-editor";
 import "easymde/dist/easymde.min.css";
@@ -16,12 +17,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
-export default function TicketForm() {
+interface Props {
+  ticket?: Ticket;
+}
+
+export default function TicketForm({ ticket }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string>("");
   async function onSubmit(values: z.infer<typeof ticketSchema>) {
     try {
-      console.log("xxxxx", values);
       setIsSubmitting(true);
       setError("");
 
@@ -63,7 +67,7 @@ export default function TicketForm() {
           <Controller
             control={form.control}
             name="description"
-            render={({ field }) => <SimpleMDE placeholder="Description" />}
+            render={({ field }) => <SimpleMDE placeholder="Description" {...field} />}
           />
 
           <div className="flex w-full space-x-4">
@@ -116,7 +120,9 @@ export default function TicketForm() {
               )}
             ></FormField>
           </div>
-            <Button type="submit" disabled={isSubmitting}>Submit</Button>
+          <Button type="submit" disabled={isSubmitting}>
+            Submit
+          </Button>
           {/* <div className="flex justify-end space-x-4">
           </div> */}
         </form>
