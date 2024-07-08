@@ -2,6 +2,7 @@
 import axios from "axios";
 import { z } from "zod";
 import { useState } from "react";
+
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Ticket } from "@prisma/client";
@@ -14,6 +15,8 @@ import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ui/use-toast";
 
 type TicketFormData = z.infer<typeof ticketSchema>;
 
@@ -24,15 +27,32 @@ interface Props {
 export default function TicketForm({ ticket }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string>("");
+  const router = useRouter();
+  const { toast } = useToast();
+
   async function onSubmit(values: z.infer<typeof ticketSchema>) {
     try {
       setIsSubmitting(true);
       setError("");
 
       await axios.post("/api/tickets", values);
+
+      toast({
+        title: "Ticket created",
+        description: "Your ticket has been created.",
+      });
+
+      setIsSubmitting(false);
       
+      router.push("/tickets");
+      router.refresh();
     } catch (error) {
-      setError("An error occurred while submitting the form.");
+      console.log(error);
+      toast({
+        title: "Failed to create ticket",
+        description: "An error occurred while submitting the form.",
+      })
+      setError("Error:" +  error);
       setIsSubmitting(false);
     }
   }
