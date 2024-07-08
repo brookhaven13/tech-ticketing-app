@@ -108,6 +108,7 @@ export default function TicketForm({ ticket }: Props) {
                     </FormControl>
                     <SelectContent>
                       <SelectItem value="OPEN">Open</SelectItem>
+                      <SelectItem value="STARTED">Started</SelectItem>
                       <SelectItem value="CLOSED">Closed</SelectItem>
                     </SelectContent>
                   </Select>
