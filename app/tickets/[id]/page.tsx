@@ -1,4 +1,17 @@
+import Link from "next/link";
 import prisma from "@/prisma/db";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import TicketStatusBadge from "@/components/ticket-status-badge";
+import TicketPriority from "@/components/ticket-priority";
+import { buttonVariants } from "@/components/ui/button";
+import ReactMarkDown from "react-markdown";
 
 interface Props {
   params: {
@@ -11,12 +24,62 @@ export default async function Ticket({ params }: Props) {
     where: {
       id: parseInt(params.id),
     },
-  })
+  });
 
-  return <div className="flex flex-col gap-4">
-    <div>{ticket?.title}</div>
-    <div>{ticket?.description}</div>
-    <div>{ticket?.status}</div>
-    <div>{ticket?.priority}</div>
-  </div>;
+  if (!ticket) {
+    return <div className="text-destructive px-10">Ticket not found</div>;
+  }
+
+  return (
+    <Card className="mx-10">
+      <CardHeader className="flex flex-col gap-1">
+        <div className="flex items-center justify-between pb-2">
+          <TicketStatusBadge status={ticket.status} />
+          <TicketPriority priority={ticket.priority} />
+        </div>
+        <CardTitle>{ticket.title}</CardTitle>
+        <CardDescription>
+          Created:{" "}
+          {ticket.createdAt.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ReactMarkDown>{ticket.description}</ReactMarkDown>
+      </CardContent>
+      <CardFooter>
+        <p>
+          Updated:{" "}
+          {ticket.updatedAt.toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit",
+            hour12: true,
+          })}
+        </p>
+      </CardFooter>
+      <div className="flex items-center justify-end gap-3 p-6">
+        <Link
+          href={`/tickets/edit/${ticket.id}`}
+          className={buttonVariants({ variant: "default" })}
+        >
+          Edit
+        </Link>
+        <Link
+          href={`/tickets/delete/${ticket.id}`}
+          className={buttonVariants({ variant: "outline" })}
+        >
+          Delete
+        </Link>
+      </div>
+    </Card>
+  );
 }
