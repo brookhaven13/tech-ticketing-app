@@ -14,7 +14,13 @@ import "easymde/dist/easymde.min.css";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -35,7 +41,11 @@ export default function TicketForm({ ticket }: Props) {
       setIsSubmitting(true);
       setError("");
 
-      await axios.post("/api/tickets", values);
+      if (ticket) {
+        await axios.patch("/api/tickets/" + ticket.id, values);
+      } else {
+        await axios.post("/api/tickets", values);
+      }
 
       toast({
         title: "Ticket created",
@@ -43,37 +53,31 @@ export default function TicketForm({ ticket }: Props) {
       });
 
       setIsSubmitting(false);
-      
+
       router.push("/tickets");
       router.refresh();
     } catch (error) {
-      console.log(error);
       toast({
         title: "Failed to create ticket",
         description: "An error occurred while submitting the form.",
-      })
-      setError("Error:" +  error);
+      });
+      setError("Error:" + error);
       setIsSubmitting(false);
     }
   }
 
-  const form  = useForm<TicketFormData>({
+  const form = useForm<TicketFormData>({
     resolver: zodResolver(ticketSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      status: "",
-      priority: "",
-    }
-  })
+  });
 
   return (
     <div className="rounded-md border w-full p-4">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 py-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
             control={form.control}
             name="title"
+            defaultValue={ticket?.title}
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Ticket Title</FormLabel>
@@ -87,13 +91,17 @@ export default function TicketForm({ ticket }: Props) {
           <Controller
             control={form.control}
             name="description"
-            render={({ field }) => <SimpleMDE placeholder="Description" {...field} />}
+            defaultValue={ticket?.description}
+            render={({ field }) => (
+              <SimpleMDE placeholder="Description" {...field} />
+            )}
           />
 
           <div className="flex w-full space-x-4">
             <FormField
               control={form.control}
               name="status"
+              defaultValue={ticket?.status}
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Status</FormLabel>
@@ -119,6 +127,7 @@ export default function TicketForm({ ticket }: Props) {
             <FormField
               control={form.control}
               name="priority"
+              defaultValue={ticket?.priority}
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel>Priority</FormLabel>
@@ -141,11 +150,11 @@ export default function TicketForm({ ticket }: Props) {
               )}
             ></FormField>
           </div>
-          <Button type="submit" disabled={isSubmitting}>
-            Submit
-          </Button>
-          {/* <div className="flex justify-end space-x-4">
-          </div> */}
+          <div className="flex justify-end space-x-4">
+            <Button type="submit" disabled={isSubmitting}>
+              { ticket ? "Update Ticket" : "Create Ticket"}
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
