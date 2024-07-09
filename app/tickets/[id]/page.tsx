@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/card";
 import TicketStatusBadge from "@/components/ticket-status-badge";
 import TicketPriority from "@/components/ticket-priority";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import ReactMarkDown from "react-markdown";
 
 interface Props {
@@ -73,12 +73,9 @@ export default async function Ticket({ params }: Props) {
         >
           Edit
         </Link>
-        <Link
-          href={`/tickets/delete/${ticket.id}`}
-          className={buttonVariants({ variant: "outline" })}
-        >
+        <Button variant="secondary">
           Delete
-        </Link>
+        </Button>
       </div>
     </Card>
   );
