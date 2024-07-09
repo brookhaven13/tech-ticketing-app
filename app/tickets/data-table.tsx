@@ -1,3 +1,4 @@
+import Link from "next/link";
 import TicketPriority from "@/components/ticket-priority";
 import TicketStatusBadge from "@/components/ticket-status-badge";
 import {
@@ -16,7 +17,7 @@ interface Props {
 
 export default function DataTable({ tickets }: Props) {
   return (
-    <div className="w-full px-10 my-5">
+    <div className="w-full">
       <div className="rounded-md sm:border">
         <Table>
           <TableHeader>
@@ -32,7 +33,7 @@ export default function DataTable({ tickets }: Props) {
               ? tickets.map((ticket) => (
                   <TableRow key={ticket.id}>
                     <TableCell className="font-medium">
-                      {ticket.title}
+                      <Link href={`/tickets/${ticket.id}`}>{ticket.title}</Link>
                     </TableCell>
                     <TableCell><TicketStatusBadge status={ticket.status} /></TableCell>
                     <TableCell><TicketPriority priority={ticket.priority} /></TableCell>

@@ -1,6 +1,5 @@
 import { ticketSchema } from "@/Schema/ticket";
 import prisma from "@/prisma/db";
-import { type NextApiResponse } from "next";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function fetchTickets() {
