@@ -12,6 +12,7 @@ import TicketStatusBadge from "@/components/ticket-status-badge";
 import TicketPriority from "@/components/ticket-priority";
 import { Button, buttonVariants } from "@/components/ui/button";
 import ReactMarkDown from "react-markdown";
+import DeteleteTicket from "./delete";
 
 interface Props {
   params: {
@@ -73,9 +74,7 @@ export default async function Ticket({ params }: Props) {
         >
           Edit
         </Link>
-        <Button variant="secondary">
-          Delete
-        </Button>
+        <DeteleteTicket ticketId={ticket.id} />
       </div>
     </Card>
   );
