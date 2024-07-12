@@ -1,3 +1,4 @@
+"use client";
 import {
   ChevronRight,
   ChevronLeft,
@@ -33,7 +34,7 @@ export default function Pagination({
   };
 
   return (
-    <div>
+    <div className="flex items-center justify-center gap-2">
       <Button
         variant="outline"
         disabled={currentPage === 1}
