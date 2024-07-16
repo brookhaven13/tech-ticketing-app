@@ -17,7 +17,7 @@ export default async function Tickets({
   const tickets = await fetchTickets();
 
   const pageSize = 10;
-  const page = parseInt(searchParams.page.toString()) || 1;
+  const page = +searchParams?.page || 1;
   const ticketCount = await prisma.ticket.count();
 
   return (

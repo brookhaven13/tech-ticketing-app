@@ -23,15 +23,13 @@ export default function Pagination({
   const router = useRouter();
   const searchParams = new URLSearchParams();
 
-  if (pageCount <= 1) {
-    return null;
-  }
-
   const changePage = (page: number) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", page.toString());
     router.push(`?${params.toString()}`);
   };
+
+  if (pageCount <= 1) return null;
 
   return (
     <div className="flex items-center justify-center gap-2">
