@@ -42,7 +42,7 @@ export default function Pagination({
       </Button>
       <Button
         variant="outline"
-        disabled={currentPage === pageCount}
+        disabled={currentPage === 1}
         onClick={() => changePage(currentPage - 1)}
       >
         <ChevronLeft />
