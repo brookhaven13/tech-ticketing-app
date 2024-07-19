@@ -32,35 +32,40 @@ export default function Pagination({
   if (pageCount <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center gap-2">
-      <Button
-        variant="outline"
-        disabled={currentPage === 1}
-        onClick={() => changePage(1)}
-      >
-        <ChevronFirst />
-      </Button>
-      <Button
-        variant="outline"
-        disabled={currentPage === 1}
-        onClick={() => changePage(currentPage - 1)}
-      >
-        <ChevronLeft />
-      </Button>
-      <Button
-        variant="outline"
-        disabled={currentPage === pageCount}
-        onClick={() => changePage(currentPage + 1)}
-      >
-        <ChevronRight />
-      </Button>
-      <Button
-        variant="outline"
-        disabled={currentPage === pageCount}
-        onClick={() => changePage(pageCount)}
-      >
-        <ChevronLast />
-      </Button>
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center justify-center gap-2">
+        <Button
+          variant="outline"
+          disabled={currentPage === 1}
+          onClick={() => changePage(1)}
+        >
+          <ChevronFirst />
+        </Button>
+        <Button
+          variant="outline"
+          disabled={currentPage === 1}
+          onClick={() => changePage(currentPage - 1)}
+        >
+          <ChevronLeft />
+        </Button>
+        <Button
+          variant="outline"
+          disabled={currentPage === pageCount}
+          onClick={() => changePage(currentPage + 1)}
+        >
+          <ChevronRight />
+        </Button>
+        <Button
+          variant="outline"
+          disabled={currentPage === pageCount}
+          onClick={() => changePage(pageCount)}
+        >
+          <ChevronLast />
+        </Button>
+      </div>
+      <div className="w-full flex justify-center">
+        Page {currentPage} of {pageCount}
+      </div>
     </div>
   );
 }

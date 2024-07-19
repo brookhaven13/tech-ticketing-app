@@ -2,19 +2,11 @@ import { ticketSchema } from "@/Schema/ticket";
 import prisma from "@/prisma/db";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function fetchTickets() {
-  try {
-    const tickets = await prisma.ticket.findMany();
-    return tickets;
-  } catch (error) {
-    return [];
-  }
-}
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  console.log(body);
   const validation = ticketSchema.safeParse(body);
+
   if (!validation.success) {
     return NextResponse.json(validation.error.format(), { status: 400 });
   }

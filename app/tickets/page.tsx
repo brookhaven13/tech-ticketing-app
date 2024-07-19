@@ -1,7 +1,6 @@
 import Link from "next/link";
 import DataTable from "./data-table";
-import { fetchTickets } from "../api/tickets/route";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import Pagination from "@/components/pagination";
 import prisma from "@/prisma/db";
 
@@ -14,11 +13,13 @@ export default async function Tickets({
 }: {
   searchParams: SearchParams;
 }) {
-  const tickets = await fetchTickets();
-
   const pageSize = 10;
   const page = +searchParams?.page || 1;
   const ticketCount = await prisma.ticket.count();
+  const tickets = await prisma.ticket.findMany({
+    take: pageSize,
+    skip: (page - 1) * pageSize,
+  });
 
   return (
     <div className="w-full flex flex-col gap-5 px-10 pb-6">
