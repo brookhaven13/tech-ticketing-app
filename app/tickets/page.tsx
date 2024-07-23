@@ -1,14 +1,15 @@
 import Link from "next/link";
 import prisma from "@/prisma/db";
-import { Status } from "@prisma/client";
+import { Status, Ticket } from "@prisma/client";
 import { buttonVariants } from "@/components/ui/button";
 import Pagination from "@/components/pagination";
 import StatusFilter from "@/components/status-filter";
 import DataTable from "./data-table";
 
-interface SearchParams {
+export interface SearchParams {
   status?: Status;
   page: number;
+  orderBy: keyof Ticket;
 }
 
 export default async function Tickets({
@@ -18,6 +19,8 @@ export default async function Tickets({
 }) {
   const pageSize = 10;
   const page = +searchParams?.page || 1;
+
+  const orderBy = searchParams.orderBy ?? "createdAt";
 
   const statuses = Object.values(Status);
   const status = statuses.includes(searchParams?.status as Status)
@@ -51,7 +54,7 @@ export default async function Tickets({
         </Link>
         <StatusFilter />
       </div>
-      <DataTable tickets={tickets} />
+      <DataTable tickets={tickets} searchParams={searchParams} />
       <Pagination
         itemCount={ticketCount}
         pageSize={pageSize}

@@ -14,6 +14,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import ReactMarkDown from "react-markdown";
 import DeteleteTicket from "./delete";
 
+
 interface Props {
   params: {
     id: string;
